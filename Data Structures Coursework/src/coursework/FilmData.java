@@ -4,10 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
- 
+
+import coursework.Menu.regionType;
 
 public class FilmData {
 
@@ -15,7 +14,7 @@ public class FilmData {
 	public String titleId;
 	public String ordering;
 	public String title;
-	public String region;
+	public regionType region;
 	public String language;
 	public String types;
 	public String attributes;
@@ -27,7 +26,7 @@ public class FilmData {
 		titleId = csvParts[idx++];
 		ordering = csvParts[idx++];
 		title = csvParts[idx++];
-		region = csvParts[idx++];
+		region = regionType.getFrom(csvParts[idx++]);
 		language = csvParts[idx++];
 		types = csvParts[idx++];
 		attributes = csvParts[idx++];
@@ -61,9 +60,6 @@ public class FilmData {
 				+ SEP + isOriginalTitle;
 	}
 
-	
-		
-
 	public static ArrayList<FilmData> readFile(String filename) throws FileNotFoundException {
 		ArrayList<FilmData> films = new ArrayList<>();
 		File csvFile = new File(filename);
@@ -77,7 +73,5 @@ public class FilmData {
 		csvScan.close();
 		return films;
 	}
-	
-	
 
 }
