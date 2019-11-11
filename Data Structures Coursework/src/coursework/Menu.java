@@ -9,10 +9,11 @@ import java.util.Scanner;
 
 public class Menu {
 
+	public static Scanner scan = new Scanner(System.in);
+
 	public static void main(String[] args) throws FileNotFoundException {
 		ArrayList<FilmData> film = FilmData.readFile("SampleDataset-FilmTitle.csv");
-
-		Scanner scan = new Scanner(System.in);
+		ArrayList<personData> person = personData.readFile("SampleDataset-Person.csv");
 
 		String Choice = " ";
 
@@ -24,7 +25,7 @@ public class Menu {
 			System.out.println("Main Menu");
 			System.out.println("1. List of regions.");
 			System.out.println("2. Films from specific region.");
-			System.out.println("3. Partial film title search (With Region).");
+			System.out.println("3. Partial film title search.");
 			System.out.println("4. Film title and category for specified person.");
 			System.out.println("5. Names and category of people who worked on specified film.");
 			System.out.println("6. Person with highest number of credits and associated films");
@@ -44,15 +45,15 @@ public class Menu {
 				break;
 			}
 			case "3": {
-
+				titleSearch(film);
 				break;
 			}
 			case "4": {
-
+				personSearch(person, film);
 				break;
 			}
 			case "5": {
-
+				filmSearch(film, person);
 				break;
 			}
 			case "6": {
@@ -118,11 +119,51 @@ public class Menu {
 	public static void specifiedRegion(List<FilmData> film) {
 
 		System.out.println("Which region would you like to get film titles from: ");
-		Scanner scan = new Scanner(System.in);
+		String specRegion = scan.next();
 
+		for (FilmData f : film) {		
+			if (f.region.equals(regionType.getFrom(specRegion)))
+				System.out.println(f.toCSVString());
+		}
+
+	}
+	
+	public static void titleSearch(List<FilmData> film) {
 		
+		System.out.println("Which film title would you like to search for: ");
+		String partTitle = scan.next();
 		
+		for (FilmData f : film) {
+			if (f.title.contains(partTitle))
+				System.out.println(f.toCSVString());
+		}
+	}
+	
+	public static void personSearch(List<personData> person, List<FilmData> film) {
 		
+		System.out.println("What is the ID of the person who you would like to search for: ");
+		String personID = scan.next();
+		
+		for (personData p : person) (FilmData f : film) {
+			if (p.tconst.contains(personID))
+				System.out.println(p.toCSVString());
+		}
+		for (FilmData f : film) {
+			if (f.titleId.contains(personID))
+				System.out.println(f.toCSVString());
+		}
+		
+	}
+	
+	public static void filmSearch(List<FilmData> film, List<personData> person) {
+		
+		System.out.println("Which film title would you like to search for: ");
+		String fullTitle = scan.next();
+		
+		for (FilmData f : film) {
+			if (f.title.equals(fullTitle))
+				System.out.println(f.toCSVString());
+		}
 	}
 
 }

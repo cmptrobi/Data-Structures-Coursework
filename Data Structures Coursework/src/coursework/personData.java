@@ -6,32 +6,26 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import coursework.Menu.regionType;
 
-public class FilmData {
+public class personData {
 
 	public final String SEP = ",";
-	public String titleId;
+	public String tconst;
 	public String ordering;
-	public String title;
-	public regionType region;
-	public String language;
-	public String types;
-	public String attributes;
-	public String isOriginalTitle;
+	public String nconst;
+	public String category;
+	public String job;
+	public String characters;
 
-	public FilmData(String csvString) {
+	public personData(String csvString) {
 		String[] csvParts = lineSplit(csvString, SEP);
 		int idx = 0;
-		titleId = csvParts[idx++];
+		tconst = csvParts[idx++];
 		ordering = csvParts[idx++];
-		title = csvParts[idx++];
-		region = regionType.getFrom(csvParts[idx++]);
-		language = csvParts[idx++];
-		types = csvParts[idx++];
-		attributes = csvParts[idx++];
-		isOriginalTitle = csvParts[idx++];
-
+		nconst = csvParts[idx++];
+		category = csvParts[idx++];
+		job = csvParts[idx++];
+		characters = csvParts[idx++];
 	}
 
 	public String[] lineSplit(String csvString, String s) {
@@ -54,24 +48,23 @@ public class FilmData {
 		}
 		return parts;
 	}
-
+	
 	public String toCSVString() {
-		return titleId + SEP + ordering + SEP + title + SEP + region + SEP + language + SEP + types + SEP + attributes
-				+ SEP + isOriginalTitle;
+		return tconst + SEP + ordering + SEP + nconst + SEP + category + SEP + job + SEP + characters; 
 	}
 
-	public static ArrayList<FilmData> readFile(String filename) throws FileNotFoundException {
-		ArrayList<FilmData> films = new ArrayList<>();
+	public static ArrayList<personData> readFile(String filename) throws FileNotFoundException {
+		ArrayList<personData> persons = new ArrayList<>();
 		File csvFile = new File(filename);
 		Scanner csvScan = new Scanner(csvFile);
 		csvScan.nextLine();
 		while (csvScan.hasNextLine()) {
 			String line = csvScan.nextLine();
-			FilmData film = new FilmData(line);
-			films.add(film);
+			personData person = new personData(line);
+			persons.add(person);
 		}
 		csvScan.close();
-		return films;
+		return persons;
 	}
 
 }
