@@ -1,4 +1,4 @@
-package coursework;
+package courseworkOptimised;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
+import coursework.FilmData;
+import coursework.personData;
+import coursework.Menu.regionType;
 
 public class Menu {
 
@@ -70,30 +74,6 @@ public class Menu {
 
 		scan.close();
 
-	}
-
-	public enum regionType {
-		NA("\\N"), AR("AR"), AT("AT"), AU("AU"), BE("BE"), BR("BR"), CO("CO"), CSHH("CSHH"), CZ("CZ"), DE("DE"), DK(
-				"DK"), ES("ES"), FI("FI"), FR("FR"), GB("GB"), GR("GR"), HU("HU"), IN("IN"), IT("IT"), JP("JP"), MX(
-						"MX"), NL("NL"), NO("NO"), PL("PL"), PT("PT"), RO("RO"), RS("RS"), RU("RU"), SE("SE"), SI(
-								"SI"), TR("TR"), US("US"), UY("UY"), VE("VE"), XEU("XEU"), XWW("XWW"), XYU("XYU");
-
-		private final String str;
-
-		private regionType(String aStr) {
-			this.str = aStr;
-		}
-
-		public String toString() {
-			return this.str;
-		}
-
-		public static regionType getFrom(String aStr) {
-			for (regionType t : regionType.values())
-				if (t.str.equals(aStr))
-					return t;
-			throw new IllegalArgumentException("Could not find a region :" + aStr);
-		}
 	}
 
 	public static void regionList(List<FilmData> film) {
