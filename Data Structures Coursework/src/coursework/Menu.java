@@ -2,6 +2,7 @@ package coursework;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -189,30 +190,33 @@ public class Menu {
 	}
 
 	public static void highCredFilm(List<personData> person, List<FilmData> film) {
+
+		Comparator<personData> sort = null;
 		String result = null;
-		Map<String, Integer> highCred = new HashMap<>();
-		Map.Entry<String, Integer> mostRepeated = null;
 
 		System.out.println("Here is the person with the highest amount of credits: ");
 
-		for (FilmData f : film) {
-			int occ = 0;
-			if (highCred.containsKey(f.titleId))
-				occ = highCred.get(f.titleId);
-			occ++;
-			highCred.put(f.titleId, occ);
-
-			for (Map.Entry<String, Integer> e : highCred.entrySet()) {
-				if (mostRepeated == null || mostRepeated.getValue() < e.getValue())
-					mostRepeated = e;
-				if (mostRepeated != null) {
-					for (personData d : person) {
-						if (d.tconst.equals(mostRepeated)) {
-							System.out.print(d.tconst.toString());
-						}
-					}
+		sort = new Comparator<personData>() {
+			public int compare(personData o1, personData o2) {
+				return o1.nconst.compareTo(o2.nconst);
+			}
+		};
+		for (personData p : person) {
+			int i = 0;
+			String last = p.nconst.toString();
+			if (p.nconst != last) {
+				int res = i;
+				if (res > i) {
+					result = p.nconst.toString();
+				}
+				if (res < i) {
+					i = 0;
 				}
 			}
+			if (p.nconst.equals(last)) {
+				i++;
+			}
 		}
+		System.out.println(result);
 	}
 }
