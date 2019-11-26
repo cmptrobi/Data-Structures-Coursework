@@ -7,17 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import coursework.FilmData;
-import coursework.personData;
-import coursework.Menu.regionType;
-
 public class Menu {
 
 	public static Scanner scan = new Scanner(System.in);
 
 	public static void main(String[] args) throws FileNotFoundException {
-		ArrayList<FilmData> film = FilmData.readFile("SampleDataset-FilmTitle.csv");
-		ArrayList<personData> person = personData.readFile("SampleDataset-Person.csv");
+		HashMap<FilmData, String> Film = FilmData.readFile("SampleDataset-FilmTitle.csv");
+		HashMap<personData, String> person = personData.readFile("SampleDataset-Person.csv");
 
 		String Choice = " ";
 
@@ -41,27 +37,27 @@ public class Menu {
 
 			switch (Choice) {
 			case "1": {
-				regionList(film);
+				regionList(Film);
 				break;
 			}
 			case "2": {
-				specifiedRegion(film);
+				specifiedRegion(Film);
 				break;
 			}
 			case "3": {
-				titleSearch(film);
+				titleSearch(Film);
 				break;
 			}
 			case "4": {
-				personSearch(person, film);
+				personSearch(person, Film);
 				break;
 			}
 			case "5": {
-				filmSearch(film, person);
+				filmSearch(Film, person);
 				break;
 			}
 			case "6": {
-				highCredFilm(person, film);
+				highCredFilm(person, Film);
 				break;
 			}
 			case "7": {
@@ -73,10 +69,10 @@ public class Menu {
 		} while (!Choice.equals("Q"));
 
 		scan.close();
-
 	}
+	
 
-	public static void regionList(List<FilmData> film) {
+	public static void regionList(HashMap<FilmData, String> film) {
 
 		System.out.println("Here are all the regions which have film data");
 
@@ -96,103 +92,96 @@ public class Menu {
 
 	}
 
-	public static void specifiedRegion(List<FilmData> film) {
+	public static void specifiedRegion(HashMap<FilmData, String> film) {
 
 		System.out.println("Which region would you like to get film titles from: ");
 		String specRegion = scan.next();
 
-		for (FilmData f : film) {
-			if (f.region.equals(regionType.getFrom(specRegion))) {
-				System.out.println(f.title.toString());
-			}
+		if (f.region.equals(regionType.getFrom(specRegion))) {
+			System.out.println(f.title.toString());
 		}
 
 	}
 
-	public static void titleSearch(List<FilmData> film) {
+	public static void titleSearch(HashMap<FilmData, String> film) {
 
 		System.out.println("Which film title would you like to search for: ");
 		String partTitle = scan.next();
 
-		for (FilmData f : film) {
-			if (f.title.contains(partTitle)) {
-				System.out.print(f.title.toString());
+		
+			if (FilmData.containsKey(partTitle)) {
+				System.out.print(FilmData.get(film.title.toString());
 				System.out.print(", ");
-				System.out.println(f.region.toString());
-			}
+				System.out.println(film.region.toString());
+			
 		}
 	}
 
-	public static void personSearch(List<personData> person, List<FilmData> film) {
+	public static void personSearch(HashMap<personData, String> person, HashMap<FilmData, String> film) {
 
 		ArrayList<String> search = new ArrayList<>();
 
 		System.out.println("What is the ID of the person who you would like to search for: ");
 		String personID = scan.next();
 
-		for (FilmData f : film) {
-			if (f.titleId.contains(personID)) {
-				search.add(f.title.toString());
-				for (personData p : person) {
-					if (p.tconst.contains(personID)) {
-						System.out.print(p.nconst.toString());
-						System.out.print(", ");
-						System.out.print(p.category.toString());
-						System.out.print(", ");
-						System.out.print(search);
-						System.out.println(", ");
-					}
-				}
+		if (film.titleId.contains(personID)) {
+			search.add(film.title.toString());
+			if (person.tconst.contains(personID)) {
+				System.out.print(person.nconst.toString());
+				System.out.print(", ");
+				System.out.print(person.category.toString());
+				System.out.print(", ");
+				System.out.print(search);
+				System.out.println(", ");
 			}
 		}
 	}
 
-	public static void filmSearch(List<FilmData> film, List<personData> person) {
+	public static void filmSearch(HashMap<FilmData, String> film, HashMap<personData, String> person) {
 		String result = null;
 
 		System.out.println("Which film title would you like to search for: ");
 		String fullTitle = scan.next();
 
-		for (FilmData f : film) {
-			if (f.title.equals(fullTitle)) {
-				result = f.titleId.toString();
-				for (personData p : person) {
-					if (p.tconst.equals(result)) {
-						System.out.print(p.nconst.toString());
-						System.out.print(", ");
-						System.out.print(p.category.toString());
-						System.out.println(", ");
-					}
-				}
+		if (film.title.equals(fullTitle)) {
+			result = film.titleId.toString();
+			if (person.tconst.equals(result)) {
+				System.out.print(person.nconst.toString());
+				System.out.print(", ");
+				System.out.print(person.category.toString());
+				System.out.println(", ");
+
 			}
 		}
+
 	}
 
-	public static void highCredFilm(List<personData> person, List<FilmData> film) {
+	public static void highCredFilm(HashMap<personData, String> person, HashMap<FilmData, String> film) {
 		String result = null;
 		Map<String, Integer> highCred = new HashMap<>();
 		Map.Entry<String, Integer> mostRepeated = null;
 
 		System.out.println("Here is the person with the highest amount of credits: ");
 
-		for (FilmData f : film) {
-			int occ = 0;
-			if (highCred.containsKey(f.titleId))
-				occ = highCred.get(f.titleId);
-			occ++;
-			highCred.put(f.titleId, occ);
+		int occ = 0;
+		if (highCred.containsKey(film.titleId))
+			occ = highCred.get(film.titleId);
+		occ++;
+		highCred.put(film.titleId, occ);
 
-			for (Map.Entry<String, Integer> e : highCred.entrySet()) {
-				if (mostRepeated == null || mostRepeated.getValue() < e.getValue())
-					mostRepeated = e;
-				if (mostRepeated != null) {
-					for (personData d : person) {
-						if (d.tconst.equals(mostRepeated)) {
-							System.out.print(d.tconst.toString());
-						}
-					}
+		for (Map.Entry<String, Integer> e : highCred.entrySet()) {
+			if (mostRepeated == null || mostRepeated.getValue() < e.getValue())
+				mostRepeated = e;
+			if (mostRepeated != null) {
+
+				if (person.tconst.equals(mostRepeated)) {
+					System.out.print(person.tconst.toString());
+
 				}
 			}
 		}
+	}
+
+	
 	}
 }
