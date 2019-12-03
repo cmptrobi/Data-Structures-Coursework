@@ -96,7 +96,8 @@ public class Menu {
 			throw new IllegalArgumentException("Could not find a region :" + aStr);
 		}
 	}
-
+	
+	//Feature A: Shows all the regions that data is from
 	public static void regionList(List<FilmData> film) {
 
 		System.out.println("Here are all the regions which have film data");
@@ -116,7 +117,8 @@ public class Menu {
 		}
 
 	}
-
+	
+	//Feature B: Shows specific films from a region
 	public static void specifiedRegion(List<FilmData> film) {
 
 		System.out.println("Which region would you like to get film titles from: ");
@@ -130,6 +132,7 @@ public class Menu {
 
 	}
 
+	//Feature C: Finds potential films from a partial title
 	public static void titleSearch(List<FilmData> film) {
 
 		System.out.println("Which film title would you like to search for: ");
@@ -143,7 +146,8 @@ public class Menu {
 			}
 		}
 	}
-
+	
+	//Feature D a: Searches for specific persons films
 	public static void personSearch(List<personData> person, List<FilmData> film) {
 
 		ArrayList<String> search = new ArrayList<>();
@@ -167,7 +171,8 @@ public class Menu {
 			}
 		}
 	}
-
+	
+	//Feature D b:  Shows contributions to a specific film
 	public static void filmSearch(List<FilmData> film, List<personData> person) {
 		String result = null;
 
@@ -188,7 +193,8 @@ public class Menu {
 			}
 		}
 	}
-
+	
+	//Feature E: Finds the highest credit Film
 	public static void highCredFilm(List<personData> person, List<FilmData> film) {
 
 		Comparator<personData> sort = null;

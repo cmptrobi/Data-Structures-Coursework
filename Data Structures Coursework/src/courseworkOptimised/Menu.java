@@ -7,12 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+
 public class Menu {
 
 	public static Scanner scan = new Scanner(System.in);
 
 	public static void main(String[] args) throws FileNotFoundException {
-		HashMap<FilmData, String> Film = FilmData.readFile("SampleDataset-FilmTitle.csv");
+		HashMap<FilmData, String> film = FilmData.readFile("SampleDataset-FilmTitle.csv");
 		HashMap<personData, String> person = personData.readFile("SampleDataset-Person.csv");
 
 		String Choice = " ";
@@ -37,27 +38,27 @@ public class Menu {
 
 			switch (Choice) {
 			case "1": {
-				regionList(Film);
+				regionList(film);
 				break;
 			}
 			case "2": {
-				specifiedRegion(Film);
+				specifiedRegion(film);
 				break;
 			}
 			case "3": {
-				titleSearch(Film);
+				titleSearch(film);
 				break;
 			}
 			case "4": {
-				personSearch(person, Film);
+				personSearch(person, film);
 				break;
 			}
 			case "5": {
-				filmSearch(Film, person);
+				filmSearch(film, person);
 				break;
 			}
 			case "6": {
-				highCredFilm(person, Film);
+				highCredFilm(person, film);
 				break;
 			}
 			case "7": {
@@ -70,93 +71,9 @@ public class Menu {
 
 		scan.close();
 	}
-	
 
-	public static void regionList(HashMap<FilmData, String> film) {
-
-		System.out.println("Here are all the regions which have film data");
-
-		Map<regionType, Integer> filmCount = new HashMap<>();
-
-		for (FilmData f : film) {
-			int occ = 0;
-			if (filmCount.containsKey(f.region))
-				occ = filmCount.get(f.region);
-			occ++;
-			filmCount.put(f.region, occ);
-		}
-
-		for (regionType t : filmCount.keySet()) {
-			System.out.println(t + " -> " + filmCount.get(t) + " occurrences");
-		}
-
-	}
-
-	public static void specifiedRegion(HashMap<FilmData, String> film) {
-
-		System.out.println("Which region would you like to get film titles from: ");
-		String specRegion = scan.next();
-
-		if (f.region.equals(regionType.getFrom(specRegion))) {
-			System.out.println(f.title.toString());
-		}
-
-	}
-
-	public static void titleSearch(HashMap<FilmData, String> film) {
-
-		System.out.println("Which film title would you like to search for: ");
-		String partTitle = scan.next();
-
-		
-			if (FilmData.containsKey(partTitle)) {
-				System.out.print(FilmData.get(film.title.toString());
-				System.out.print(", ");
-				System.out.println(film.region.toString());
-			
-		}
-	}
-
-	public static void personSearch(HashMap<personData, String> person, HashMap<FilmData, String> film) {
-
-		ArrayList<String> search = new ArrayList<>();
-
-		System.out.println("What is the ID of the person who you would like to search for: ");
-		String personID = scan.next();
-
-		if (film.titleId.contains(personID)) {
-			search.add(film.title.toString());
-			if (person.tconst.contains(personID)) {
-				System.out.print(person.nconst.toString());
-				System.out.print(", ");
-				System.out.print(person.category.toString());
-				System.out.print(", ");
-				System.out.print(search);
-				System.out.println(", ");
-			}
-		}
-	}
-
-	public static void filmSearch(HashMap<FilmData, String> film, HashMap<personData, String> person) {
-		String result = null;
-
-		System.out.println("Which film title would you like to search for: ");
-		String fullTitle = scan.next();
-
-		if (film.title.equals(fullTitle)) {
-			result = film.titleId.toString();
-			if (person.tconst.equals(result)) {
-				System.out.print(person.nconst.toString());
-				System.out.print(", ");
-				System.out.print(person.category.toString());
-				System.out.println(", ");
-
-			}
-		}
-
-	}
-
-	public static void highCredFilm(HashMap<personData, String> person, HashMap<FilmData, String> film) {
+	//Feature E: Finds the highest credit Film
+	private static void highCredFilm(HashMap<personData, String> person, HashMap<FilmData, String> film) {
 		String result = null;
 		Map<String, Integer> highCred = new HashMap<>();
 		Map.Entry<String, Integer> mostRepeated = null;
@@ -180,8 +97,109 @@ public class Menu {
 				}
 			}
 		}
+
 	}
 
+	//Feature D b:  Shows contributions to a specific film
+	private static void filmSearch(HashMap<FilmData, String> film, HashMap<personData, String> person) {
+		String result = null;
+
+		System.out.println("Which film title would you like to search for: ");
+		String fullTitle = scan.next();
+
+		if (film.title.containsKey(fullTitle)) {
+			result = film.titleId.toString();
+			if (person.tconst.equals(result)) {
+				System.out.print(person.nconst.toString());
+				System.out.print(", ");
+				System.out.print(person.category.toString());
+				System.out.println(", ");
+
+			}
+		}
+
+	}
 	
+	//Feature D a: Searches for specific persons films
+	private static void personSearch(HashMap<personData, String> person, HashMap<FilmData, String> film) {
+		ArrayList<String> search = new ArrayList<>();
+
+		System.out.println("What is the ID of the person who you would like to search for: ");
+		String personID = scan.next();
+
+		if (film.titleId.containsKey(personID)) {
+			search.add(film.title.toString());
+			if (person.tconst.contains(personID)) {
+				System.out.print(person.nconst.toString());
+				System.out.print(", ");
+				System.out.print(person.category.toString());
+				System.out.print(", ");
+				System.out.print(search);
+				System.out.println(", ");
+			}
+		}
+
+	}
+
+	//Feature C: Finds potential films from a partial title
+	private static void titleSearch(HashMap<FilmData, String> film) {
+		System.out.println("Which film title would you like to search for: ");
+		String partTitle = scan.next();
+
+		
+			if (film.title.containsKey(partTitle)) {
+				System.out.print(FilmData.get(film.title.toString());
+				System.out.print(", ");
+				System.out.println(film.region.toString());
+			
+	}
+	}
+
+	//Feature B: Shows specific films from a region
+	private static void specifiedRegion(HashMap<FilmData, String> film) {
+		System.out.println("Which region would you like to get film titles from: ");
+		String specRegion = scan.next();		
+		
+		if (film.region.containsKey(regionType.getFrom(specRegion))) {
+			System.out.println(film.title.toString());
+		}
+
+	}
+
+	//Feature A: Shows all the regions that data is from
+	private static void regionList(HashMap<FilmData, String> film) {
+
+		System.out.println("Here are all the regions which have film data");
+
+		Map<regionType, Integer> filmCount = new HashMap<>();
+
+		for (regionType t : filmCount.keySet()) {
+			System.out.println(t + " -> " + filmCount.get(t) + " occurrences");
+
+		}
+	}
+
+	public enum regionType {
+		NA("\\N"), AR("AR"), AT("AT"), AU("AU"), BE("BE"), BR("BR"), CO("CO"), CSHH("CSHH"), CZ("CZ"), DE("DE"), DK(
+				"DK"), ES("ES"), FI("FI"), FR("FR"), GB("GB"), GR("GR"), HU("HU"), IN("IN"), IT("IT"), JP("JP"), MX(
+						"MX"), NL("NL"), NO("NO"), PL("PL"), PT("PT"), RO("RO"), RS("RS"), RU("RU"), SE("SE"), SI(
+								"SI"), TR("TR"), US("US"), UY("UY"), VE("VE"), XEU("XEU"), XWW("XWW"), XYU("XYU");
+
+		private final String str;
+
+		private regionType(String aStr) {
+			this.str = aStr;
+		}
+
+		public String toString() {
+			return this.str;
+		}
+
+		public static regionType getFrom(String aStr) {
+			for (regionType t : regionType.values())
+				if (t.str.equals(aStr))
+					return t;
+			throw new IllegalArgumentException("Could not find a region :" + aStr);
+		}
 	}
 }
